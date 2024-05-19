@@ -101,9 +101,7 @@ export default function GamePage(props) {
       ) : (
         <section className={Styles["game"]}>
           <div className={Styles["error"]}>
-            <h2>Ой-ой-ой</h2>
             <p>К сожалению, такой игры не существует 😢</p>
-            <img src="https://media.tenor.com/UNaQFutfOF0AAAAi/banana-crying-cat.gif"></img>
             <Link className={Styles["error_link"]} href="/">
               На главную
             </Link>

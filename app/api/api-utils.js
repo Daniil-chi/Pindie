@@ -1,4 +1,3 @@
-
 export const getData = async (url) => {
   const response = await fetch(url);
   const data = response.json();
@@ -6,11 +5,12 @@ export const getData = async (url) => {
 };
 
 export const normalizeDataObject = (obj) => {
-  return {
-    ...obj,
-    category: obj.categories,
-    users: obj.users_permissions_users,
-  };
+  let str = JSON.stringify(obj);
+
+  str = str.replaceAll("_id", "id");
+  const newObj = JSON.parse(str);
+  const result = { ...newObj, category: newObj.categories };
+  return result;
 };
 
 export const normalizeData = (data) => {
@@ -47,65 +47,63 @@ export const authorize = async (url, data) => {
 
     const result = await response.json();
     return result;
-  } 
-  
-  catch (error) {
+  } catch (error) {
     return error;
   }
 };
 
 export const getMyJWT = async (url, jwt) => {
-  try{
+  try {
     const response = await fetch(url, {
       method: "GET",
       headers: { Authorization: `Bearer ${jwt}` },
     });
 
-    if(response.status >399){
-      throw new Error ("Ошибка получения данных");
+    if (response.status > 399) {
+      throw new Error("Ошибка получения данных");
     }
 
     const result = await response.json();
     return result;
-  }
-  catch(error){
+  } catch (error) {
     return error;
   }
-}
+};
 
-export const vote  = async (url, jwt, usersArray) =>{
-  try{
-      const response = await fetch(url, {
-        method: "PUT",
-        headers: {'Content-Type': 'application/json',
-        Authorization: `Bearer ${jwt}`,},
-        body: JSON.stringify({users_permissions_users: usersArray}),
-      });
-      
-    if(response.status >399){
-      throw new Error ("Ошибка голосования");
+export const vote = async (url, jwt, usersArray) => {
+  try {
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify({ users: usersArray }),
+    });
+
+    if (response.status > 399) {
+      throw new Error("Ошибка голосования");
     }
 
     const result = await response.json();
     return result;
-  }
-  catch(error){
+  } catch (error) {
     return error;
   }
-}
+};
 
-export const setJWT = (jwt) =>{
+export const setJWT = (jwt) => {
   localStorage.setItem("jwt", jwt);
-}
+};
 
-export const getJWT = () =>{
+export const getJWT = () => {
   return localStorage.getItem("jwt");
-}
+};
 
-export const removeJWT= () =>{
+export const removeJWT = () => {
   localStorage.removeItem("jwt");
-}
+};
 
-export const checkIfUserVoted = (game, userId) =>{
-  return game.users.find((user)=> user.id ===userId);
-}
+export const checkIfUserVoted = (game, userId) => {
+  return game.users.find((user) => user.id === userId);
+};
