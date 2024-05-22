@@ -1,19 +1,15 @@
-'use client';
-import { getGamesByCategory } from "../data/data-itils";
-import { CardsListSection } from "../components/CardListSection/CardsListSection";
-import { getNormalizedGameDataByCategory } from "../api/api-utils";
-import { endpoints } from "../api/config";
-import { useGetDataByCategory } from "../api/api-hooks";
-import { Preloader } from "../components/Preloader/Prealoder";
+'use client'
 
-export default function Tds() {
-  const tds = useGetDataByCategory(
-    endpoints.games, 
-    "TDS"
-    );
+import { endpoints } from "@/app/api/config";
+import { CardsListSection } from "../components/CardsListSection/CardsListSection";
+import { useGetDataByCategory } from "@/app/api/api-hooks";
+import { Preloader } from "@/app/components/Preloader/Preloader";
+
+export default function New() {
+  const tdsGames = useGetDataByCategory(endpoints.games, "TDS");
   return (
-    <main className="main">
-      {tds ? <CardsListSection id="TDS" title="TDS" data={tds} /> : <Preloader />}
+    <main className="main-inner">
+      {tdsGames ? <CardsListSection id="tds" title="TDS" data={tdsGames} /> : <Preloader />}
     </main>
   );
 }

@@ -1,19 +1,15 @@
-"use client";
-import { getGamesByCategory } from "../data/data-itils";
-import { CardsListSection } from "../components/CardListSection/CardsListSection";
-import { getNormalizedGameDataByCategory } from "../api/api-utils";
-import { endpoints } from "../api/config";
-import { useGetDataByCategory } from "../api/api-hooks";
-import { Preloader } from "../components/Preloader/Prealoder";
+'use client';
+
+import { endpoints } from "@/app/api/config";
+import { useGetDataByCategory } from "@/app/api/api-hooks";
+import { CardsListSection } from "../components/CardsListSection/CardsListSection";
+import { Preloader } from "@/app/components/Preloader/Preloader";
+
 export default function New() {
   const newGames = useGetDataByCategory(endpoints.games, "new");
   return (
-    <main className={"main"}>
-      {newGames ? (
-        <CardsListSection  id="new" title="Новинки" data={newGames} />
-      ) : (
-        <Preloader />
-      )}
+    <main className="main-inner">
+      {newGames ? <CardsListSection id="new" title="Новые" data={newGames} /> : <Preloader />}
     </main>
   );
 }

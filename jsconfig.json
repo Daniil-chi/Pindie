@@ -1,9 +1,5 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
-    "module": "CommonJS",
-    "jsx": "preserve",
-    "lib": ["ES2015", "DOM"],
     "paths": {
       "@/*": ["./*"]
     }

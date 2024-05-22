@@ -1,32 +1,26 @@
 'use client';
-import Image from "next/image";
-import styles from "./page.module.css";
-import { Banner } from "./components/Banner/Banner";
-import { Promo } from "./components/Promo/Promo";
-import { PopularCardsFragment } from "./components/CardListSection/PopularCardsFragment";
-import { CardsList } from "./components/CardListSection/CardsList";
-import { NewCardsFragment } from "./components/CardListSection/NewCardsFragment";
-import { getGamesByCategory } from "./data/data-itils";
-import { useEffect } from "react";
-import { authorize } from "./api/api-utils";
+
 import { endpoints } from "./api/config";
+import { Banner } from "./components/Banner/Banner";
+import { CardsListSection } from "./components/CardsListSection/CardsListSection";
+import { Promo } from "./components/Promo/Promo";
 import { useGetDataByCategory } from "./api/api-hooks";
-import { CardsListSection } from "./components/CardListSection/CardsListSection";
+import { Preloader } from "@/app/components/Preloader/Preloader";
 
 export default function Home() {
-  const popularGame = useGetDataByCategory(
-    endpoints.games,
-    "popular"
-  );
-  const newGame = useGetDataByCategory(
-    endpoints.games,
-    "new"
-  );
+  const popularGames = useGetDataByCategory(endpoints.games, "popular");
+  const newGames = useGetDataByCategory(endpoints.games, "new");
   return (
     <main className="main">
       <Banner />
-      {popularGame  && <CardsListSection id="popular"  type="slider" title="Популярные" data={popularGame}></CardsListSection>}
-      {newGame && <CardsListSection id="new" type="slider" title="Новинки" data={newGame}></CardsListSection>}
+      {
+        (popularGames && newGames) ? (
+          <>
+            <CardsListSection id="popular" title="Популярные" data={popularGames} type="slider"/>
+            <CardsListSection id="new" title="Новинки"  data={newGames} type="slider"/>
+          </>
+        ) : <Preloader />
+      }
       <Promo />
     </main>
   );

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { setJWT, removeJWT, getJWT, getMyJWT } from "../api/api-utils";
+import { getJWT, setJWT, removeJWT, getMe } from "../api/api-utils";
 import { endpoints } from "../api/config";
 
 export const useStore = create((set) => ({
@@ -17,7 +17,7 @@ export const useStore = create((set) => ({
   checkAuth: async () => {
     const jwt = getJWT();
     if (jwt) {
-      const user = await getMyJWT(endpoints.me, jwt);
+      const user = await getMe(endpoints.me, jwt);
       if (user) {
         set({ isAuth: true, user: { ...user, id: user._id }, token: jwt });
         setJWT(jwt);
